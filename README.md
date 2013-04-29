@@ -3,6 +3,8 @@
 This is an example of simple 2D application that draws graphic primitives and
 handles keyboard input.
 
+![screenshot](https://github.com/cypok/sdl_example/raw/master/screenshot.png)
+
 ### More docs
 
 Documentation for SDL_gfx graphic primitives (points, circles, rects and etc.)
