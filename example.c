@@ -95,32 +95,41 @@ static int processKey(SDL_Surface *screen, int key) {
             return 1;
 
         case SDLK_UP:
-            if (point_y - POINT_RADIUS - BORDER_WIDTH > field_y) {
-                dy = -1;
-            }
+            dy = -1;
             break;
         case SDLK_DOWN:
-            if (point_y + POINT_RADIUS + BORDER_WIDTH < field_y + field_height - 1) {
-                dy = 1;
-            }
+            dy = 1;
             break;
         case SDLK_LEFT:
-            if (point_x - POINT_RADIUS - BORDER_WIDTH > field_x) {
-                dx = -1;
-            }
+            dx = -1;
             break;
         case SDLK_RIGHT:
-            if (point_x + POINT_RADIUS + BORDER_WIDTH < field_x + field_width - 1) {
-                dx = 1;
-            }
+            dx = 1;
             break;
     }
 
     if (dx != 0 || dy != 0) {
-        filledCircleColor(screen, point_x, point_y, POINT_RADIUS, COLOR_FIELD);
-        point_x += dx*POINT_SPEED;
-        point_y += dy*POINT_SPEED;
-        filledCircleColor(screen, point_x, point_y, POINT_RADIUS, COLOR_POINT);
+        dx *= POINT_SPEED;
+        dy *= POINT_SPEED;
+
+        if (point_x + dx <  field_x + BORDER_WIDTH + POINT_RADIUS ||
+            point_x + dx >= field_x + field_width - BORDER_WIDTH - POINT_RADIUS) {
+
+            dx = 0;
+        }
+
+        if (point_y + dy <  field_y + BORDER_WIDTH + POINT_RADIUS ||
+            point_y + dy >= field_y + field_height - BORDER_WIDTH - POINT_RADIUS) {
+
+            dy = 0;
+        }
+
+        if (dx != 0 || dy != 0) {
+            filledCircleColor(screen, point_x, point_y, POINT_RADIUS, COLOR_FIELD);
+            point_x += dx;
+            point_y += dy;
+            filledCircleColor(screen, point_x, point_y, POINT_RADIUS, COLOR_POINT);
+        }
     }
     return 0;
 }
