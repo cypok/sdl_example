@@ -11,21 +11,24 @@ Documentation for SDL\_gfx graphic primitives (points, circles, rects and etc.)
 can be found
 [here](http://www.ferzkopp.net/Software/SDL_gfx-2.0/Docs/html/_s_d_l__gfx_primitives_8h.html).
 
-### Build & run on OS X
+### Build & run on Linux/OS X
 
-Install sdl & sdl\_gfx somehow. For example, use [homebrew](http://brew.sh):
+Frist install sdl & sdl\_gfx development packages.
+For example, use apt-get on Linux:
+
+    apt-get install libsdl1.2-dev libsdl-gfx1.2-dev
+
+Or use [homebrew](http://brew.sh) on OS X:
 
     brew install sdl sdl_gfx
 
-And use make to build:
+Or use your favourite package manager on your favourite OS.
+
+Then use make to build:
 
     make && ./example
 
 That's all! :sunglasses:
-
-### Build & run on Linux
-
-:bangbang: TODO :bangbang:
 
 ### Build & run on Windows using Visual C
 
