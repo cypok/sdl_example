@@ -59,9 +59,8 @@ Now you should be able to run the example.
 
 ### Build & run on Windows using something else
 
-:bangbang: TODO :bangbang:
-
-_In the meantime you can google how to do it._
+I give up because there are too many variants of MinGW.
+Google "SDL\_gfx \<your\_compiler\>" to retrieve instructions. :blush:
 
 ### Feedback
 
