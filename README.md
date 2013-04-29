@@ -13,7 +13,7 @@ can be found
 
 ### Build & run on Linux/OS X
 
-Frist install sdl & sdl\_gfx development packages.
+Frist install SDL & SDL\_gfx development packages.
 For example, use apt-get on Linux:
 
     apt-get install libsdl1.2-dev libsdl-gfx1.2-dev
@@ -60,6 +60,8 @@ Now you should be able to run the example.
 ### Build & run on Windows using something else
 
 :bangbang: TODO :bangbang:
+
+_In the meantime you can google how to do it._
 
 ### Feedback
 
