@@ -41,7 +41,7 @@ static SDL_Surface *createSurface() {
     screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BPP, SDL_HWSURFACE);
     checkSDLResult(screen != 0);
 
-    checkSDLResult(SDL_EnableKeyRepeat(100, SDL_DEFAULT_REPEAT_INTERVAL) == 0);
+    checkSDLResult(SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL) == 0);
 
     return screen;
 }
