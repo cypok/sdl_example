@@ -50,7 +50,7 @@ static void initialDraw(SDL_Surface *screen) {
     // fill all screen with white color
     SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 255, 255, 255));
 
-    stringColor(screen, TITLE_X, TITLE_Y, "Use arrows to move point, use Esc to exit.", 0x000000ff);
+    stringColor(screen, TITLE_X, TITLE_Y, "Use arrows or mouse to move point, use Esc to exit.", 0x000000ff);
 
     // drawing border
     // 1---2
@@ -84,8 +84,29 @@ static void initialDraw(SDL_Surface *screen) {
     filledCircleColor(screen, point_x, point_y, POINT_RADIUS, COLOR_POINT);
 }
 
+static int limitValue(int x, int min, int max) {
+    return (x < min) ? min : ((x > max) ? max : x);
+}
+
+static void movePoint(SDL_Surface *screen, int new_x, int new_y) {
+    new_x = limitValue(new_x,
+                       field_x + BORDER_WIDTH + POINT_RADIUS,
+                       field_x + field_width - BORDER_WIDTH - POINT_RADIUS - 1);
+
+    new_y = limitValue(new_y,
+                       field_y + BORDER_WIDTH + POINT_RADIUS,
+                       field_y + field_height - BORDER_WIDTH - POINT_RADIUS - 1);
+
+    if (new_x != point_x || new_y != point_y) {
+        filledCircleColor(screen, point_x, point_y, POINT_RADIUS, COLOR_FIELD);
+        point_x = new_x;
+        point_y = new_y;
+        filledCircleColor(screen, point_x, point_y, POINT_RADIUS, COLOR_POINT);
+    }
+}
+
 /* Returns 1 if quit. */
-static int processKey(SDL_Surface *screen, int key) {
+static int processKey(SDL_Surface *screen, SDLKey key) {
     // position change
     int dx = 0;
     int dy = 0;
@@ -106,32 +127,20 @@ static int processKey(SDL_Surface *screen, int key) {
         case SDLK_RIGHT:
             dx = 1;
             break;
+        default:
+            break;
     }
 
     if (dx != 0 || dy != 0) {
-        dx *= POINT_SPEED;
-        dy *= POINT_SPEED;
-
-        if (point_x + dx <  field_x + BORDER_WIDTH + POINT_RADIUS ||
-            point_x + dx >= field_x + field_width - BORDER_WIDTH - POINT_RADIUS) {
-
-            dx = 0;
-        }
-
-        if (point_y + dy <  field_y + BORDER_WIDTH + POINT_RADIUS ||
-            point_y + dy >= field_y + field_height - BORDER_WIDTH - POINT_RADIUS) {
-
-            dy = 0;
-        }
-
-        if (dx != 0 || dy != 0) {
-            filledCircleColor(screen, point_x, point_y, POINT_RADIUS, COLOR_FIELD);
-            point_x += dx;
-            point_y += dy;
-            filledCircleColor(screen, point_x, point_y, POINT_RADIUS, COLOR_POINT);
-        }
+        movePoint(screen, point_x + dx * POINT_SPEED, point_y + dy * POINT_SPEED);
     }
     return 0;
+}
+
+void processMouseDown(SDL_Surface *screen, Uint8 button, Uint16 x, Uint16 y) {
+    if (button == 1) {
+        movePoint(screen, x, y);
+    }
 }
 
 int main() {
@@ -160,6 +169,12 @@ int main() {
                         quit = 1;
                     }
                     break;
+
+                case SDL_MOUSEBUTTONDOWN: {
+                    SDL_MouseButtonEvent be = event.button;
+                    processMouseDown(screen, be.button, be.x, be.y);
+                    break;
+                }
             }
         }
 
